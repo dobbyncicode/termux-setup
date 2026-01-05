@@ -14,6 +14,7 @@ FILES = {
     "nvim": XDG_CONFIG / "nvim",
     "fastfetch": XDG_CONFIG / "fastfetch",
     "tealdeer": XDG_CONFIG / "tealdeer",
+    ".termux": HOME / ".termux",
     
     ".bashrc": HOME / ".bashrc"
 }
