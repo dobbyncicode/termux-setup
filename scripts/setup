@@ -1,0 +1,73 @@
+#!/usr/bin/env python3
+
+import shutil
+import os
+from pathlib import Path
+
+SCRIPT_DIR = Path(__file__).parent.resolve()
+REPO_ROOT = SCRIPT_DIR.parent 
+DOTFILES_SOURCE = REPO_ROOT / "dotfiles"
+HOME = Path.home()
+XDG_CONFIG = HOME / ".config"
+
+FILES = {
+    "nvim": XDG_CONFIG / "nvim",
+    "fastfetch": XDG_CONFIG / "fastfetch",
+    "tealdeer": XDG_CONFIG / "tealdeer",
+    
+    ".bashrc": HOME / ".bashrc"
+}
+
+def clean_motd():
+    prefix = os.environ.get("PREFIX")
+    if not prefix:
+        return
+
+    etc_dir = Path(prefix) / "etc"
+    motd_files = list(etc_dir.glob("*motd*"))
+
+    if motd_files:
+        print("-" * 40)
+        for trash in motd_files:
+            try:
+                trash.unlink()
+                print(f"🔥 Burned: {trash.name}")
+            except Exception as e:
+                print(f"💀 Failed: {trash.name}")
+
+def install():
+    print(f"📂 Repo Root:   {REPO_ROOT}")
+    print(f"📦 Source Dir:  {DOTFILES_SOURCE}")
+    print("-" * 40)
+
+    if not DOTFILES_SOURCE.exists():
+        print("❌ Error: Dunno where's that dotfiles directory.")
+        return
+
+    XDG_CONFIG.mkdir(parents=True, exist_ok=True)
+
+    for filename, target in FILES.items():
+        source = DOTFILES_SOURCE / filename
+        
+        if not source.exists():
+            print(f"❌ Missing: {filename} source not found.")
+            continue
+
+        if target.exists() or target.is_symlink():
+            try:
+                if target.is_dir() and not target.is_symlink():
+                    shutil.rmtree(target)
+                else:
+                    target.unlink()
+                print(f"♻️  Overriding: {target.name}")
+            except Exception as e:
+                print(f"💀 Failed to nuke {target.name}: {e}")
+                continue
+
+        target.symlink_to(source)
+        print(f"🔗 Linked: {filename} -> {target}")
+
+
+if __name__ == "__main__":
+    install()
+    clean_motd()
