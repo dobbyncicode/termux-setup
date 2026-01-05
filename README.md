@@ -40,7 +40,7 @@ ssh-keygen -t ed25519 -C "email@email.email"
 cat ~/.ssh/id_ed25519.pub
 ```
 
-### 4.2.) Add SSH key to GitHub
+### 4.2.) Add SSH key to GitHub (optional)
 - Copy the `cat ~/.ssh/id_ed25519.pub` command output from step 4.1 if applicable
 - Open your web browser
 - Click Profile icon > Settings > SSH and GPG Keys
@@ -48,7 +48,7 @@ cat ~/.ssh/id_ed25519.pub
 - Title: Anything
 - Paste the public SSH key 
 
-### 4.3.) Test
+### 4.3.) Test (optional)
 - Back to Termux, type `ssh -T git@github.com`
 - Type `yes` then hit 'Enter'
 
