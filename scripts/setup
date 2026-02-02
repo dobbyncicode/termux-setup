@@ -11,12 +11,16 @@ HOME = Path.home()
 XDG_CONFIG = HOME / ".config"
 
 FILES = {
+    # --- Directories --- # 
     "nvim": XDG_CONFIG / "nvim",
     "fastfetch": XDG_CONFIG / "fastfetch",
     "tealdeer": XDG_CONFIG / "tealdeer",
+    "fish": XDG_CONFIG / "fish",
+
+    # --- Single file --- # 
     ".termux": HOME / ".termux",
-    
-    ".bashrc": HOME / ".bashrc"
+    ".bashrc": HOME / ".bashrc",
+    "starship.toml": XDG_CONFIG / "starship.toml"
 }
 
 def clean_motd():
